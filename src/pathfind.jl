@@ -53,8 +53,8 @@ function creation_du_graphe(lignes_du_fichier)
 
     directions = [(-1, 0), (1, 0), # gauche et droite
                   (0, -1), (0, 1), # haut et bas
-                  (-1, -1), (-1, 1), # diagonale 1
-                  (1, -1) , (1, 1) ] # diagonale 2
+                  #=(-1, -1), (-1, 1), # diagonale 1
+                  (1, -1) , (1, 1) =#] # diagonale 2
     
     # on va initialiser le graphe comme un dictionnaire vide
 
@@ -76,13 +76,13 @@ function creation_du_graphe(lignes_du_fichier)
 
                     if estLibre(vi , vj , nbcolone, lignes_du_fichier )
                         println("ca passe dans estLibre")
-                        push!( ses_voisins ,((vi , vj) , 1)) # si c'est une zone traversable , j'ajoute dans ses voisins avec un poids 
+                        push!( ses_voisins ,((vi , vj) , 1.0)) # si c'est une zone traversable , j'ajoute dans ses voisins avec un poids 
                     end 
                 end
 
                 if length(ses_voisins)>0
 
-                    graphe[((i,j) , 0)] = ses_voisins
+                    graphe[(i,j)] = ses_voisins
 
                 end
             end
@@ -97,7 +97,7 @@ function algoBFS(graphe , D , A)
 
     # Créer une file d'attente
 
-    file = Queue(Deque{Tuple{Tuple{Int, Int}, Int}}())
+    file = Queue(Deque{Tuple{Int, Int}}())
 
     # Ensuite y ajouter le point de départ D
 
@@ -105,18 +105,23 @@ function algoBFS(graphe , D , A)
 
     # Création d'un dictionnaire des prédecesseurs et d'un dictionnaire pour marquer les points visités
 
-    predecesseurs = Dict{Tuple{Tuple{Int, Int}, Int}, Union{Nothing, Tuple{Tuple{Int, Int}, Int}}}() 
-    visites = Set(D)
+    predecesseurs = Dict{Tuple{Int, Int}, Union{Nothing, Tuple{Int, Int}}}() 
+    visites = Set()
+    push!(visites , D)
+    print(" les visités : " , visites)
     predecesseurs[D] = nothing
 
     # je crée ensuite un dictionnaire supplémentaire des vérifications
-    verification = Set(D)
+    verification = Set()
+    push!(verification , D)
 
     # Tant que la file n'est pas vide
 
     while !isempty(file)
 
         noeud = dequeue!( file )
+        print(" noeud : " , noeud)
+        
 
         # marquer le noeud comme visité
         
@@ -128,7 +133,7 @@ function algoBFS(graphe , D , A)
 
         for succ in graphe[noeud]
 
-            successeur = ( succ[1] , 0)
+            successeur = succ[1] 
             # je vérifie s'il n'est pas encore visité 
 
             if !( successeur in visites) && !( successeur in verification)
@@ -189,6 +194,84 @@ function algoBFS(graphe , D , A)
 
 end
 
+# ------------------ Djisktra ---------------------------------------------------------
+
+function djisktra(graphe , D , A)
+
+     # Initialisation des distances, prédécesseurs et sommets visités
+     distance = Dict{Tuple{Int, Int}, Float64}()
+     precedent = Dict{Tuple{Int, Int}, Union{Nothing, Tuple{Int, Int}}}()
+     visites = Set{Tuple{Int, Int}}()
+     verification = Set()
+
+     # Initialisation des valeurs par défaut
+    for sommet in keys(graphe)
+        distance[sommet] = Inf
+        precedent[sommet] = nothing
+    end
+    distance[D] = 0.0
+    # File de priorité stockant (sommet => distance)
+    tas = PriorityQueue{Tuple{Int, Int}, Float64}()
+    enqueue!(tas, D, 0.0)
+    while !isempty(tas)
+        # Extraction du sommet avec la plus petite distance
+        println("Tas avant extraction: ", tas)
+        u = dequeue!(tas)
+        dist_u = distance[u]
+        println("Sommet extrait: ", u, " avec distance: ", dist_u)
+        println("Tas après extraction: ", tas)
+
+        # Si le sommet est déjà visité, on passe
+        if u in visites
+            continue
+        end
+        push!(visites, u)
+
+        # Si on atteint le point d'arrivée, on peut s'arrêter
+        if u == A
+            break
+        end
+
+        # Mise à jour des voisins
+        for (v,poids) in graphe[u]
+            
+            if v in visites
+                continue
+            end
+            
+            new_dist = dist_u + poids
+            println("************ new_dist :  " , new_dist )
+            if new_dist < distance[v]
+                
+                distance[v] = new_dist
+                print("====== distance[v] = " , distance[v])
+                precedent[v] = u
+                if !( v in verification)
+                    enqueue!(tas, v, new_dist)
+                    push!(verification , v)
+                end
+            end
+        end
+    end
+    print("taille des visités : " , length(visites))
+    path = []
+    current = A
+
+    while current !== nothing
+        push!(path, current)
+        current = precedent[current]
+    end
+
+    return (path[end] == D) ? reverse(path) : nothing
+
+end
+
+#------------------------------------------ A* ------------------------------------
+
+function Aetoile(graphe , D , A )
+    
+end
+
 function main()
 
     nom_du_fichier = "didactic.map"
@@ -197,13 +280,20 @@ function main()
     graphe = creation_du_graphe(lignes_du_fichier)
     println( "taille du graphe : " , length(graphe))
     #println(graphe)
-    D = ((16 , 5), 0)
-    A = ((6 , 12) , 0)
-    chemin = algoBFS( graphe , D , A)
+    D = (16 , 5)
+    A = (6 , 12)
+    chemin = djisktra(graphe , D , A)
     if chemin != nothing
-        println(" Distance de D -> A : " , length(chemin))
+        println(" Distance de D -> A : " , length(chemin) - 1 )
         println( " Path D -> A : " , chemin)
     else
         println(" Il n'existe aucun chemin")
     end
+    #=chemin = algoBFS( graphe , D , A)
+    if chemin != nothing
+        println(" Distance de D -> A : " , length(chemin) - 1 )
+        println( " Path D -> A : " , chemin)
+    else
+        println(" Il n'existe aucun chemin")
+    end=#
 end
