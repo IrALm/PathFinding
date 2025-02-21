@@ -107,8 +107,6 @@ function algoBFS(graphe , D , A)
 
     predecesseurs = Dict{Tuple{Int, Int}, Union{Nothing, Tuple{Int, Int}}}() 
     visites = Set()
-    push!(visites , D)
-    print(" les visités : " , visites)
     predecesseurs[D] = nothing
 
     # je crée ensuite un dictionnaire supplémentaire des vérifications
@@ -268,8 +266,130 @@ end
 
 #------------------------------------------ A* ------------------------------------
 
+function heuristique( x , y ) 
+
+    return sqrt((y[1] - x[1])^2 + abs(y[2] - x[2])^2) #Distance euclidienne
+
+end
+
 function Aetoile(graphe , D , A )
+
+    #Initialisation des distances et des prédecesseurs
+    distance = Dict{Tuple{Int, Int}, Float64}()
+    precedent = Dict{Tuple{Int, Int} , Union{Nothing, Tuple{Int, Int}}}()
+    visites = Set{Tuple{Int, Int}}()
+    verification = Set()
+    #File de priorité pour selectionner le sommet avec la plus petite valeur
+    tas = PriorityQueue{Tuple{Int, Int}, Float64}()
+    #Initialisation des distances à l'infinie
+    for sommet in keys(graphe)
+        distance[sommet] = Inf
+        precedent[sommet] = nothing 
+    end
+    distance[D] = 0.0#la distance du sommet de départ est 0
+    enqueue!(tas, D , 0.0 + heuristique(D,A)) #f(D) = g(D) + h(D)
+    while !isempty(tas) 
+        #extraire le sommet avec la plus petite valeur
+        u = dequeue!(tas)
+        dist_u = distance[u]
+        # Si le sommet est déjà visité, on passe
+        if u in visites
+            continue
+        end
+        push!(visites, u)
+
+        # Si on atteint le point d'arrivée, on peut s'arrêter
+        if u == A
+            break
+        end
+        # Mise à jour des voisins
+        for (v,poids) in graphe[u]
+            
+            if v in visites
+                continue
+            end
+            
+            new_dist = dist_u + poids
+            f_v = new_dist + heuristique(v,A) # f(v) = g(v) + h(v)
+            println("************ f_v :  " , f_v )
+            if new_dist < distance[v]
+                
+                distance[v] = new_dist
+                print("====== distance[v] = " , distance[v])
+                precedent[v] = u
+                if !( v in verification)
+                    enqueue!(tas, v, f_v)
+                    push!(verification , v)
+                end
+            end
+        end
+    end
+    print("taille des visités : " , length(visites))
+    path = []
+    current = A
+
+    while current !== nothing
+        push!(path, current)
+        current = precedent[current]
+    end
+
+    return (path[end] == D) ? reverse(path) : nothing
+
+
+
+end
+
+#---------------------- Glouton ------------------------------------
+function heuristique_manathan(x, y)
+    return abs(x[1] - y[1]) + abs(x[2] - y[2])
+end
+function glouton(graphe , D , A) 
+
+    # File de priorité  triée selon l'heuristique h(v)
+    tas = PriorityQueue{Tuple{Int, Int}, Float64}()
     
+    # Dictionnaire pour suivre le chemin
+    precedent = Dict{Tuple{Int, Int}, Union{Nothing, Tuple{Int, Int}}}()
+    visites = Set{Tuple{Int, Int}}()
+    verification = Set()
+    
+    # Initialisation : on met le départ dans le tas
+    enqueue!(tas, D, heuristique_manathan(D, A))
+    precedent[D] = nothing
+    while !isempty(tas)
+        # Extraire le sommet avec la plus petite valeur heuristique
+        u = dequeue!(tas)
+
+        # Si le sommet est déjà visité, on passe
+        if u in visites
+            continue
+        end
+        push!(visites, u)
+
+        # Si on atteint le sommet d'arrivée, on reconstruit le chemin
+        if u == A
+            chemin = []
+            while u !== nothing
+                pushfirst!(chemin, u)
+                u = get(precedent, u, nothing)
+            end
+            print("taille des visités : " , length(visites))
+            return chemin  # Retourne le chemin trouvé
+        end
+
+        # Explorer les voisins
+        for (v, _) in graphe[u]  # On ignore les poids dans cette algorithme de glouton
+            if !haskey(precedent, v)
+                precedent[v] = u
+                if !( v in verification)
+                    enqueue!(tas, v, heuristique_manathan(v, A))
+                    push!(verification , v)
+                end
+            end
+        end
+    end
+    print("taille des visités : " , length(visites))
+    return []  # Aucun chemin trouvé
 end
 
 function main()
@@ -282,7 +402,7 @@ function main()
     #println(graphe)
     D = (16 , 5)
     A = (6 , 12)
-    chemin = djisktra(graphe , D , A)
+    chemin = glouton(graphe , D , A)
     if chemin != nothing
         println(" Distance de D -> A : " , length(chemin) - 1 )
         println( " Path D -> A : " , chemin)
