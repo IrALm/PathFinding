@@ -205,16 +205,15 @@ function Djisktra(graphe , D , A)
 
 end
 
-#= Rôle : implémentation de A*
+#= Rôle : implémentation de Glouton
    Complexité :
    Entrées :
 =#
 
-function heuristique( x , y ) 
-
-    return sqrt((y[1] - x[1])^2 + abs(y[2] - x[2])^2) #Distance euclidienne
-
+function heuristique_manathan(x, y)
+    return abs(x[1] - y[1]) + abs(x[2] - y[2])
 end
+
 
 #=
     Rôle :
@@ -238,7 +237,7 @@ function Aetoile(graphe , D , A )
         precedent[sommet] = nothing , 0.0
     end
     distance[D] = 0.0 #la distance du sommet de départ est 0
-    enqueue!(tas, D , 0.0 + heuristique(D,A)) #f(D) = g(D) + h(D)
+    enqueue!(tas, D , 0.0 + heuristique_manathan(D,A)) #f(D) = g(D) + h(D)
     while !isempty(tas) 
         #extraire le sommet avec la plus petite valeur
         u = dequeue!(tas)
@@ -252,7 +251,7 @@ function Aetoile(graphe , D , A )
         # Mise à jour des voisins
         for (v,poids) in graphe[u]
             new_dist = dist_u + poids
-            f_v = new_dist + heuristique(v,A) # f(v) = g(v) + h(v)
+            f_v = new_dist + heuristique_manathan(v,A) # f(v) = g(v) + h(v)
             if new_dist < distance[v]
                 distance[v] = new_dist
                 precedent[v] = u , poids
@@ -273,15 +272,6 @@ function Aetoile(graphe , D , A )
     end
     push!(chemin, courant)
     return reverse(chemin), nombre_de_sommet , distance
-end
-
-#= Rôle : implémentation de Glouton
-   Complexité :
-   Entrées :
-=#
-
-function heuristique_manathan(x, y)
-    return abs(x[1] - y[1]) + abs(x[2] - y[2])
 end
 
 #=
@@ -347,10 +337,13 @@ function algoBFS(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
         println("l'un des deux points est impratiquables")
     else
         graphe = creation_du_graphe(quatres_premieres_lignes , lignes_du_fichier)
+        t = time()
         chemin , nombre_de_sommet , distance = BFS(graphe , D , A)
+        dt = time() - t
         if chemin != nothing
             println(" \n\n Distance  D -> A           : " , distance )
             println(" Number of states evaluated : " , nombre_de_sommet)
+            println("temps : " , dt , " sec")
             println(" Path D -> A " )
             for element in chemin
                 print(element)
@@ -377,10 +370,13 @@ function algoDijkstra(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
         println("l'un des deux points est impratiquables")
     else
         graphe = creation_du_graphe(quatres_premieres_lignes , lignes_du_fichier)
+        t = time()
         chemin , nombre_de_sommet , distance = Djisktra(graphe , D , A)
+        dt = time() - t
         if chemin != nothing
             println(" \n\n Distance  D -> A           : " , distance )
             println(" Number of states evaluated : " , nombre_de_sommet)
+            println("temps : " , dt , " sec")
             println(" Path D -> A " )
             for element in chemin
                 print(element)
@@ -407,10 +403,13 @@ function algoGlouton(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
         println("l'un des deux points est impratiquables")
     else
         graphe = creation_du_graphe(quatres_premieres_lignes , lignes_du_fichier)
+        t = time()
         chemin , nombre_de_sommet , distance = glouton(graphe , D , A)
+        dt = time() - t
         if chemin != nothing
             println(" \n\n Distance  D -> A           : " , distance )
             println(" Number of states evaluated : " , nombre_de_sommet)
+            println("temps : " , dt , " sec")
             println(" Path D -> A " )
             for element in chemin
                 print(element)
@@ -437,10 +436,13 @@ function algoAstar(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
         println("l'un des deux points est impratiquables")
     else
         graphe = creation_du_graphe(quatres_premieres_lignes , lignes_du_fichier)
+        t = time()
         chemin , nombre_de_sommet , distance = Aetoile(graphe , D , A)
+        dt = time() - t
         if chemin != nothing
             println(" \n\n Distance  D -> A           : " , distance )
             println(" Number of states evaluated : " , nombre_de_sommet)
+            println("temps : " , dt , " sec")
             println(" Path D -> A " )
             for element in chemin
                 print(element)
