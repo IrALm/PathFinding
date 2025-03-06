@@ -41,7 +41,7 @@ Ici, j'implémente principalement 4 algorithmes :
         algoBFS("dat/didactic.map" ,(12,5) ,(2,12))
         algoDijkstra("dat/didactic.map" ,(12,5) ,(2,12))
         algoAstar("dat/didactic.map" ,(12,5) ,(2,12))
-        algoAstar("dat/didactic.map" ,(12,5) ,(2,12))
+        algoGlouton("dat/didactic.map" ,(12,5) ,(2,12))
    
    Explication : algoBFS = nom de la fonction
                       dat/didactic.map : chemin de mon fichier .map
