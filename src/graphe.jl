@@ -19,7 +19,7 @@ end
 function creation_du_graphe(nom_du_fichier::String)
 
     graphe = Dict()
-    poids = Dict( '.' => 1.0 , 'S' => 5.0 , 'W' => 8.0 , '@' => nothing , 'T' => 1.0 )
+    poids = Dict( '.' => 1.0 , 'S' => 5.0 , 'W' => 8.0 , '@' => nothing , 'T' => nothing )
     directions = [(-1, 0), (1, 0), # gauche et droite
                       (0, -1), (0, 1)] # haut et bas
     lignes = []  # Initialiser un tableau pour stocker les lignes

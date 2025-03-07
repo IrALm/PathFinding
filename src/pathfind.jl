@@ -5,7 +5,6 @@ include("BFS.jl")
 include("Djisktra.jl")
 include("Aetoile.jl")
 include("Glouton.jl")
-
 #=
     PATHFINDING 
     fait par AGANZE LWABOSHI Moïse en février 2025
@@ -26,7 +25,7 @@ function algoBFS(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
     else
         t = time()
         chemin , nombre_de_sommet , distance = BFS(graphe , D , A)
-        dt = time() - t
+        dt = round(time() - t , digits=6)
         if chemin != nothing
             println(" \n\n Distance  D -> A           : " , distance )
             println(" Number of states evaluated : " , nombre_de_sommet)
@@ -58,7 +57,7 @@ function algoDijkstra(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
     else
         t = time()
         chemin , nombre_de_sommet , distance = Djisktra(graphe , D , A)
-        dt = time() - t
+        dt = round(time() - t , digits=6)
         if chemin != nothing
             println(" \n\n Distance  D -> A           : " , distance )
             println(" Number of states evaluated : " , nombre_de_sommet)
@@ -90,7 +89,7 @@ function algoGlouton(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
     else
         t = time()
         chemin , nombre_de_sommet , distance = glouton(graphe , D , A)
-        dt = time() - t
+        dt = round(time() - t , digits=6)
         if chemin != nothing
             println(" \n\n Distance  D -> A           : " , distance )
             println(" Number of states evaluated : " , nombre_de_sommet)
@@ -113,7 +112,6 @@ end
     Entrée :
     Sortie : 
 =#
-
 function algoAstar(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
 
     graphe = creation_du_graphe(fname)
@@ -121,8 +119,8 @@ function algoAstar(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
         println("l'un des deux points est impratiquables")
     else
         t = time()
-        chemin , nombre_de_sommet , distance = Aetoile(graphe , D , A)
-        dt = time() - t
+            chemin , nombre_de_sommet , distance = Aetoile(graphe , D , A)
+        dt = round(time() - t , digits=6)
         if chemin != nothing
             println(" \n\n Distance  D -> A           : " , distance )
             println(" Number of states evaluated : " , nombre_de_sommet)
