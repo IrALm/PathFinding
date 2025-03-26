@@ -68,14 +68,17 @@ function Djisktra(graphe , D , A)
 end
 
 function reconstitution_du_chemin(precedent , D , A) 
-    chemin = []
-    courant = A
-    distance = 0.0
-    while courant != D
+    if precedent != nothing 
+        chemin = []
+        courant = A
+        distance = 0.0
+        while courant != D
+            push!(chemin, courant)
+            distance += precedent[courant][2] 
+            courant = precedent[courant][1]
+        end
         push!(chemin, courant)
-        distance += precedent[courant][2] 
-        courant = precedent[courant][1]
+        return reverse(chemin) , distance
     end
-    push!(chemin, courant)
-    return reverse(chemin) , distance
+    return nothing , 0
 end

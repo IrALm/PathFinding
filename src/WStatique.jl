@@ -6,8 +6,8 @@
 
 include("Aetoile.jl")
 
-function WAetoile( graphe , D , A , w_init )
-    if  w_init >= 1 
+function WStatique( graphe , D , A , w ) 
+    if  w >= 1
         #Initialisation des distances et des prédecesseurs
         distance = Dict{Any, Any}()
         precedent = Dict{Any , Any}()
@@ -29,7 +29,7 @@ function WAetoile( graphe , D , A , w_init )
         end
 
         distance[D] = 0.0 #la distance du sommet de départ est 0
-        inserer(tas, D , 0.0 + heuristique_manathan(D,A) * w_init) #f(D) = g(D) + w * h(D)
+        inserer(tas, D , 0.0 + heuristique_manathan(D,A) * w) #f(D) = g(D) + w * h(D)
         while !estVide(tas) 
             # Extraction du sommet avec la plus petite distance
             u = extraire(tas)[1]
@@ -41,19 +41,6 @@ function WAetoile( graphe , D , A , w_init )
             # Si on atteint le point d'arrivée, on peut s'arrêter
             if u == A
                 break
-            end
-            #verifions le nombre d'arrête qui partent du somment un
-            d_u = length(graphe[u])
-            #= Ensuite on va ajuster dynamiquement w en fonction de la nature du graphe
-                si d_u > 4 : je considère que mon graphe est dense : 
-                là je diminue w pour eviter de déborder et faire des explorations inutiles
-                si d_u <= 4 : je considère que j'ai un graphe clairsemé :
-                là j'augmente w pour aller plus vite
-            =#
-            if d_u > 4 
-                w = max( 1.0 , w_init - 0.1)
-            else
-                w = min( 2.5 , w_init + 0.1)
             end
             # Mise à jour des voisins
             for (v,poids) in graphe[u]
@@ -77,7 +64,7 @@ function WAetoile( graphe , D , A , w_init )
     return nothing , 0 , nothing
 end
 
-function reconstitution_du_chemin(precedent , D , A) 
+function reconstitution_du_chemin(precedent , D , A)
     if precedent != nothing 
         chemin = []
         courant = A

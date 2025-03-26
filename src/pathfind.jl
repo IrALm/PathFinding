@@ -5,6 +5,8 @@ include("BFS.jl")
 include("Djisktra.jl")
 include("Aetoile.jl")
 include("WAetoile.jl")
+include("WStatique.jl")
+include("WAstarversion1.jl")
 include("Glouton.jl")
 #=
     PATHFINDING 
@@ -171,3 +173,68 @@ function algoWAstar(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int} , w::Flo
     end
     println("\n\n")
 end
+
+#=
+    Rôle :
+    Complexité :
+    Entrée :
+    Sortie : 
+=#
+function algoWStatique(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int} , w::Float64)
+
+    graphe, nbcolone , nbligne = creation_du_graphe(fname)
+    if !haskey(graphe , D) || !haskey(graphe , A)
+        println("l'un des deux points est impratiquables")
+    else
+        t = time()
+            precedent , nombre_de_sommet , visites  = WStatique(graphe , D , A , w)
+        dt = round(time() - t , digits=6)
+        chemin , distance = reconstitution_du_chemin(precedent , D , A)
+        if chemin != nothing
+            println(" \n\n Distance  D -> A           : " , distance )
+            println(" Number of states evaluated : " , nombre_de_sommet)
+            println(" Temps : " , dt , " sec")
+            println(" Path D -> A " )
+            for element in chemin
+                print(element)
+                if element != chemin[end] print("->") end 
+            end
+        else
+            println(" Il n'existe aucun chemin")
+        end
+    end
+    println("\n\n")
+end
+
+#=
+    Rôle :
+    Complexité :
+    Entrée :
+    Sortie : 
+=#
+function algoWAstarVersion1(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int} , w::Float64)
+
+    graphe, nbcolone , nbligne = creation_du_graphe(fname)
+    if !haskey(graphe , D) || !haskey(graphe , A)
+        println("l'un des deux points est impratiquables")
+    else
+        t = time()
+            precedent , nombre_de_sommet , visites  = WAversion1(graphe , D , A , w)
+        dt = round(time() - t , digits=6)
+        chemin , distance = reconstitution_du_chemin(precedent , D , A)
+        if chemin != nothing
+            println(" \n\n Distance  D -> A           : " , distance )
+            println(" Number of states evaluated : " , nombre_de_sommet)
+            println(" Temps : " , dt , " sec")
+            println(" Path D -> A " )
+            for element in chemin
+                print(element)
+                if element != chemin[end] print("->") end 
+            end
+        else
+            println(" Il n'existe aucun chemin")
+        end
+    end
+    println("\n\n")
+end
+
