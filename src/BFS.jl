@@ -82,5 +82,6 @@ function BFS(graphe , D , A)
     end
     push!( chemin , courant) # quand courant = D
     # Je vais alors inverser l'orde des élements dans mon tableau pour les renvoyer dans le bon ordre
-    return reverse(chemin), nombre_de_sommet , distance
+    return reverse(chemin), nombre_de_sommet , distance,verification
 end
+

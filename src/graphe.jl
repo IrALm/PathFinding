@@ -54,7 +54,7 @@ function creation_du_graphe(nom_du_fichier::String)
     valeur_colone = split(quatres_premieres_lignes[3])[end]
     nbcolone = parse(Int , valeur_colone)
     construire_les_arcs( lignes, length(lignes) , poids , directions , nbcolone , graphe)
-    return graphe  # Retourner le tableau contenant les lignes du fichier
+    return graphe , nbcolone , length(lignes) # Retourner le tableau contenant les lignes du fichier
 end
 
 function construire_les_arcs( lignes, i , poids , directions , nbcolone , graphe)

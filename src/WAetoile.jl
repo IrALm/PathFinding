@@ -1,28 +1,13 @@
 
+#=
+
+    fait par AGANZE LWABOSHI MOISE en mars 2025
+=#
 
 include("structure.jl")
+include("Aetoile.jl")
 
-#= 
-   Fait par AGANZE LWABOSHI MOISE : mars 2025
-   Rôle : implémentation de Glouton
-   Complexité :
-   Entrées :
-=#
-
-function heuristique_manathan(x, y)
-    return abs(x[1] - y[1]) + abs(x[2] - y[2])
-end
-
-
-#=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
-=#
-
-function Aetoile(graphe , D , A )
-
+function WAetoile( graphe , D , A , w_init ) 
     #Initialisation des distances et des prédecesseurs
     distance = Dict{Any, Any}()
     precedent = Dict{Any , Any}()
@@ -44,9 +29,8 @@ function Aetoile(graphe , D , A )
     end
 
     distance[D] = 0.0 #la distance du sommet de départ est 0
-    inserer(tas, D , 0.0 + heuristique_manathan(D,A)) #f(D) = g(D) + h(D)
-    while !estVide(tas)
-
+    inserer(tas, D , 0.0 + heuristique_manathan(D,A) * w_init) #f(D) = g(D) + w * h(D)
+    while !estVide(tas) 
         # Extraction du sommet avec la plus petite distance
         u = extraire(tas)[1]
         dist_u = distance[u]
@@ -58,12 +42,24 @@ function Aetoile(graphe , D , A )
         if u == A
             break
         end
-
+        #verifions le nombre d'arrête qui partent du somment un
+        d_u = length(graphe[u])
+        #= Ensuite on va ajuster dynamiquement w en fonction de la nature du graphe
+            si d_u > 4 : je considère que mon graphe est dense : 
+            là je diminue w pour eviter de déborder et faire des explorations inutiles
+            si d_u <= 4 : je considère que j'ai un graphe clairsemé :
+            là j'augmente w pour aller plus vite
+        =#
+        if d_u > 4 
+            w = max( 1.0 , w_init - 0.1)
+        else
+            w = min( 2.5 , w_init + 0.1)
+        end
         # Mise à jour des voisins
         for (v,poids) in graphe[u]
 
             new_dist = dist_u + poids
-            f_v = new_dist + heuristique_manathan(v,A) # f(v) = g(v) + h(v)
+            f_v = new_dist + heuristique_manathan(v,A) * w  # f(v) = g(v) + w * h(v)
             if new_dist < distance[v]
                 distance[v] = new_dist
                 precedent[v] = u , poids
@@ -75,7 +71,7 @@ function Aetoile(graphe , D , A )
 
         end
     end
-    return precedent , nombre_de_sommet , verification 
+    return precedent , nombre_de_sommet , verification
 end
 
 function reconstitution_du_chemin(precedent , D , A) 

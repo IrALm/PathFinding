@@ -47,7 +47,7 @@ function glouton(graphe , D , A)
                 u = precedent[u][1]
             end
             pushfirst!(chemin, u)
-            return chemin , nombre_de_sommet , distance # Retourne le chemin trouvé
+            return chemin , nombre_de_sommet , distance , verification # Retourne le chemin trouvé
         end
 
         # Explorer les voisins
@@ -64,6 +64,6 @@ function glouton(graphe , D , A)
 
         end
     end
-    return []  , nombre_de_sommet , distance # Aucun chemin trouvé
+    return []  , nombre_de_sommet  , distance , verification # Aucun chemin trouvé
 end
 
