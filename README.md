@@ -60,9 +60,9 @@ Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Wei
 4. Pour l'exécution de l'interface graphique : 
 
   ```bash
-    julia
-    include("src/InterfaceGraphique.jl")
-    main("dat/didactic.map" , (45 , 5) ,(2,12) , 0.9 , 1.2 , 4.5)
+  julia
+  include("src/InterfaceGraphique.jl")
+  main("dat/didactic.map" , (45 , 5) ,(2,12) , 0.9 , 1.2 , 4.5)
 
 ## Explication :
   - main = nom de la fonction permettant de démarrer l'interface graphique
