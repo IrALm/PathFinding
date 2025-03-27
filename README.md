@@ -9,9 +9,9 @@ Ici, j'implémente principalement 4 algorithmes :
 
 Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Weighted A*** sous différentes règles:
  
-**avec 0 <= w <= 1 : w*g(x) + (1 - w) * h(x)**
-**avec w statique et >= 1 : g(x) + w * h(x)**
-**avec w dynamique et >= 1: g(x) + w * h(x)**
+- **avec 0 <= w <= 1 : w*g(x) + (1 - w) * h(x)**
+- **avec w statique et >= 1 : g(x) + w * h(x)**
+- **avec w dynamique et >= 1: g(x) + w * h(x)**
 
 ---
 
