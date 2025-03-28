@@ -1,6 +1,11 @@
 
 #=
   Fait par AGANZE LWABOSHI MOISE : mars 2025
+  Dans ce fichier , j'implémente toutes les structures nécessaire 
+  pour l'élaboration de mes algorithmes
+  les opérations sur la file sont toutes en o(1)
+  les opérations sur la file de priorité ont un coût logarithmique pour 
+  l'insertion et la suppression , reorganisation,.. pour le reste en coût constant
 =#
 
 # implémentation d'une file avec une liste chainée double

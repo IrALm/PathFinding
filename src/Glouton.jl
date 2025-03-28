@@ -3,10 +3,10 @@ include("structure.jl")
 
 #=
     Fait par AGANZE LWABOSHI MOISE : mars 2025
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : implémente Glouton 
+    Complexité : o( nombre des sommets + nombre d'arretes entre sommets) dans le pire des cas
+    Entrée : graphe , D , A
+    Sortie : chemin , nombre_de_sommet , distance , visites
 =# 
 
 function glouton(graphe , D , A) 

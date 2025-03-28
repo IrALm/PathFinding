@@ -11,13 +11,16 @@ include("Glouton.jl")
 #=
     PATHFINDING 
     fait par AGANZE LWABOSHI Moïse en février 2025
+    ce fichier contient les appels des différents algorithmes implémentés
+    tout au long de ce projets
+    pour les complexités temporelles , se réferer aux algorithmes précedents càd  les fonctions qui y
+    sont appelées  
 
 =#
 #=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : appel BFS
+    Complexité : complexité Création du graphe + complexité de BFS + reconstitution du chemin
+    Entrée : nom du fichier  , D , A
 =#
 
 function algoBFS(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
@@ -46,10 +49,9 @@ function algoBFS(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
 end
 
 #=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : appel BFS
+    Complexité : complexité Création du graphe + complexité de Djisktra + reconstitution du chemin
+    Entrée : nom du fichier  , D , A
 =#
 
 function algoDijkstra(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
@@ -79,10 +81,9 @@ function algoDijkstra(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
 end
 
 #=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : appel BFS
+    Complexité : complexité Création du graphe + complexité de glouton + reconstitution du chemin
+    Entrée : nom du fichier  , D , A
 =#
 
 function algoGlouton(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
@@ -111,10 +112,9 @@ function algoGlouton(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
 end
 
 #=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : appel BFS
+    Complexité : complexité Création du graphe + complexité de Aetoile + reconstitution du chemin
+    Entrée : nom du fichier  , D , A
 =#
 function algoAstar(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
 
@@ -143,10 +143,9 @@ function algoAstar(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int})
 end
 
 #=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : appel BFS
+    Complexité : complexité Création du graphe + complexité de WAetoile + reconstitution du chemin
+    Entrée : nom du fichier  , D , A
 =#
 function algoWAstar(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int} , w::Float64)
 
@@ -175,10 +174,9 @@ function algoWAstar(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int} , w::Flo
 end
 
 #=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : appel BFS
+    Complexité : complexité Création du graphe + complexité de WStatique+ reconstitution du chemin
+    Entrée : nom du fichier  , D , A
 =#
 function algoWStatique(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int} , w::Float64)
 
@@ -207,10 +205,9 @@ function algoWStatique(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int} , w::
 end
 
 #=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : appel BFS
+    Complexité : complexité Création du graphe + complexité de WAversion1 + reconstitution du chemin
+    Entrée : nom du fichier  , D , A
 =#
 function algoWAstarVersion1(fname::String, D::Tuple{Int,Int}, A::Tuple{Int,Int} , w::Float64)
 

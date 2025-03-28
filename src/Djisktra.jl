@@ -6,7 +6,14 @@ include("structure.jl")
   Fait par AGANZE LWABOSHI MOISE : mars 2025
 =#
 
-
+#=
+    Rôle : implémente l'algorithme Djisktra
+    Complexité : dans le pire des cas :
+                o(nombre des arretes des sommets + 
+                  nombres des sommets * log(sommet à explore : pour la file de priorité)) 
+    Entrée : le graphe , le point de départ D et le point A 
+    Sortie : retoune le nombre des sommets visités , les prédecesseurs de chaque noeud visités ainsi que les noeuds visités
+=#
 
 function Djisktra(graphe , D , A)
 
@@ -66,6 +73,11 @@ function Djisktra(graphe , D , A)
    return precedent , nombre_de_sommet , verification
 
 end
+
+#= 
+    Rôle : reconstitution du chemin 
+    complexité : linéaire en A - D
+=#
 
 function reconstitution_du_chemin(precedent , D , A) 
     if precedent != nothing 

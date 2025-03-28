@@ -1,12 +1,12 @@
 
-
-include("structure.jl")
+# inclure le fichier où j'ai défini ma structure file avec priorité
+include("structure.jl") 
 
 #= 
    Fait par AGANZE LWABOSHI MOISE : mars 2025
    Rôle : implémentation de Glouton
-   Complexité :
-   Entrées :
+   Complexité : o(1) : constant
+   Entrées : 2 tuples d'entier
 =#
 
 function heuristique_manathan(x, y)
@@ -15,10 +15,12 @@ end
 
 
 #=
-    Rôle :
-    Complexité :
-    Entrée :
-    Sortie : 
+    Rôle : implémente l'algorithme A*
+    Complexité : dans le pire des cas :
+                o(nombre des arretes des sommets + 
+                  nombres des sommets * log(sommet à explore : pour la file de priorité)) 
+    Entrée : le graphe , le point de départ D et le point A 
+    Sortie : retoune le nombre des sommets visités , les prédecesseurs de chaque noeud visités ainsi que les noeuds visités
 =#
 
 function Aetoile(graphe , D , A )
@@ -30,7 +32,7 @@ function Aetoile(graphe , D , A )
     #Ensuite une variable qui me permettera de compter le nombre des sommets visités
     nombre_de_sommet = 0
 
-    # je crée ensuite un dictionnaire supplémentaire des vérifications pour ne pas vsiter un même sommet deux fois
+    # je crée ensuite un dictionnaire supplémentaire des vérifications pour ne pas visiter un même sommet deux fois
     verification = Set()
     push!(verification , D)
 
@@ -48,7 +50,7 @@ function Aetoile(graphe , D , A )
     while !estVide(tas)
 
         # Extraction du sommet avec la plus petite distance
-        u = extraire(tas)[1]
+        u = extraire(tas)[1] # coût : logarithmique en la taille du tas
         dist_u = distance[u]
 
         # marquer le sommet comme visité
@@ -60,7 +62,8 @@ function Aetoile(graphe , D , A )
         end
 
         # Mise à jour des voisins
-        for (v,poids) in graphe[u]
+        # coût linéaire au nombre des arrêtes 
+        for (v,poids) in graphe[u] 
 
             new_dist = dist_u + poids
             f_v = new_dist + heuristique_manathan(v,A) # f(v) = g(v) + h(v)
@@ -68,8 +71,8 @@ function Aetoile(graphe , D , A )
                 distance[v] = new_dist
                 precedent[v] = u , poids
                 if !( v in verification)
-                    inserer(tas, v, f_v)
-                    push!(verification , v)
+                    inserer(tas, v, f_v) # coût : logarithmique en la taille du tas
+                    push!(verification , v) # cût constant
                 end
             end
 
@@ -77,6 +80,11 @@ function Aetoile(graphe , D , A )
     end
     return precedent , nombre_de_sommet , verification 
 end
+
+#= 
+    Rôle : reconstitution du chemin 
+    complexité : linéaire en A - D
+=#
 
 function reconstitution_du_chemin(precedent , D , A) 
     if precedent != nothing 

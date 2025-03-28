@@ -6,6 +6,13 @@
 
 include("Aetoile.jl")
 
+#=
+  Rôle : implémentation de wA* avec w dynamique
+  complexité : dans le pire des cas idem pour A* sauf que si w est assez grand , on visite moins des noeuds
+  entréés : même entréés que les autres algos précedents
+  sorties : même sorties que les autres algos précedents
+=#
+
 function WAetoile( graphe , D , A , w_init )
     if  w_init >= 1 
         #Initialisation des distances et des prédecesseurs
@@ -77,6 +84,10 @@ function WAetoile( graphe , D , A , w_init )
     return nothing , 0 , nothing
 end
 
+#= 
+    Rôle : reconstitution du chemin 
+    complexité : linéaire en A - D
+=#
 function reconstitution_du_chemin(precedent , D , A) 
     if precedent != nothing 
         chemin = []

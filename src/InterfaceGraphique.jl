@@ -1,6 +1,7 @@
 #=
 
     fait par AGANZE LWABOSHI MOISE en mars 2025
+    Ce fichier ne contient que toute la partie interface graphique
 =#
 
 using GLMakie
@@ -99,60 +100,62 @@ function main(fname::String , D::Tuple{Int , Int} , A::Tuple{Int , Int} , w1::Fl
         empty!(axe)
         # Ensuite redessiner le graphe
         dessine_graphe(axe , graphe)
-        # Ensuite choisir l'algorithme à executer 
-        if choisir_algorithme == "A*"
-            t = time()
-                precedent , nombre_de_sommet , visites = Aetoile(graphe , D , A)
-            dt = round(time() - t , digits=6)
-            chemin , distance = reconstitution_du_chemin(precedent, D , A)
-        elseif choisir_algorithme == "WA3*"
-            t = time()
-                precedent , nombre_de_sommet , visites = WAetoile(graphe , D , A , w3)
-            dt = round(time() - t , digits=6)
-            chemin , distance = reconstitution_du_chemin(precedent, D , A)
-        elseif choisir_algorithme == "WA2*"
-            t = time()
-                precedent , nombre_de_sommet , visites = WStatique(graphe , D , A , w2)
-            dt = round(time() - t , digits=6)
-            chemin , distance = reconstitution_du_chemin(precedent, D , A)
-        elseif choisir_algorithme == "WA1*"
-            t = time()
-                precedent , nombre_de_sommet , visites = WAversion1(graphe , D , A , w1)
-            dt = round(time() - t , digits=6)
-            chemin , distance = reconstitution_du_chemin(precedent, D , A)
-        elseif choisir_algorithme == "Dijkstra"
-            t = time()
-                precedent , nombre_de_sommet , visites = Djisktra(graphe , D , A)
-            dt = round(time() - t , digits=6)
-            chemin , distance = reconstitution_du_chemin(precedent, D , A)
-        elseif choisir_algorithme == "BFS"
-            t = time()
-                chemin , nombre_de_sommet , distance , visites = BFS(graphe , D , A)
-            dt = round(time() - t , digits=6)
+        if !haskey(graphe , D) || !haskey(graphe , A)
+            contenu[]="l'un des deux points D ou A  est impratiquables"
         else
-            t = time()
-                chemin , nombre_de_sommet , distance , visites = glouton(graphe , D , A)
-            dt = round(time() - t , digits=6)
-        end
-        if visites != nothing
-            # Afficher les noeud visités en rouge
-            scatter!( axe , [noeud[1] for noeud in visites] ,
-                            [noeud[2] for noeud in visites] ,
-                            color=:red ,markersize = 10)
-        end
-        # Afficher le plus court chemin en vert
-        if chemin != nothing
-            lines!(axe, [noeud[1] for noeud in chemin], 
-                    [noeud[2] for noeud in chemin], 
-                    color=:blue, linewidth=10)
-            #Affichage textuelle
-            contenu[] =" \n  Distance  D -> A             :   $(distance) 
-                         \n  Number of states evaluated  :  $(nombre_de_sommet)
-                         \n  Temps   :   $(dt)   sec
-                         \n  Path D -> A \n" * join([" ( $(element[1]) , $(element[2]) )  $(element!= chemin[end] ? " -> " : "")" for element in chemin])
-        end
-        
-        
+            # Ensuite choisir l'algorithme à executer 
+            if choisir_algorithme == "A*"
+                t = time()
+                    precedent , nombre_de_sommet , visites = Aetoile(graphe , D , A)
+                dt = round(time() - t , digits=6)
+                chemin , distance = reconstitution_du_chemin(precedent, D , A)
+            elseif choisir_algorithme == "WA3*"
+                t = time()
+                    precedent , nombre_de_sommet , visites = WAetoile(graphe , D , A , w3)
+                dt = round(time() - t , digits=6)
+                chemin , distance = reconstitution_du_chemin(precedent, D , A)
+            elseif choisir_algorithme == "WA2*"
+                t = time()
+                    precedent , nombre_de_sommet , visites = WStatique(graphe , D , A , w2)
+                dt = round(time() - t , digits=6)
+                chemin , distance = reconstitution_du_chemin(precedent, D , A)
+            elseif choisir_algorithme == "WA1*"
+                t = time()
+                    precedent , nombre_de_sommet , visites = WAversion1(graphe , D , A , w1)
+                dt = round(time() - t , digits=6)
+                chemin , distance = reconstitution_du_chemin(precedent, D , A)
+            elseif choisir_algorithme == "Dijkstra"
+                t = time()
+                    precedent , nombre_de_sommet , visites = Djisktra(graphe , D , A)
+                dt = round(time() - t , digits=6)
+                chemin , distance = reconstitution_du_chemin(precedent, D , A)
+            elseif choisir_algorithme == "BFS"
+                t = time()
+                    chemin , nombre_de_sommet , distance , visites = BFS(graphe , D , A)
+                dt = round(time() - t , digits=6)
+            else
+                t = time()
+                    chemin , nombre_de_sommet , distance , visites = glouton(graphe , D , A)
+                dt = round(time() - t , digits=6)
+            end
+            if visites != nothing
+                # Afficher les noeud visités en rouge
+                scatter!( axe , [noeud[1] for noeud in visites] ,
+                                [noeud[2] for noeud in visites] ,
+                                color=:red ,markersize = 10)
+            end
+            # Afficher le plus court chemin en vert
+            if chemin != nothing
+                lines!(axe, [noeud[1] for noeud in chemin], 
+                        [noeud[2] for noeud in chemin], 
+                        color=:blue, linewidth=10)
+                #Affichage textuelle
+                contenu[] =" \n  Distance  D -> A             :   $(distance) 
+                            \n  Number of states evaluated  :  $(nombre_de_sommet)
+                            \n  Temps   :   $(dt)   sec \n\n\n"
+                            #\n  Path D -> A \n" * join([" ( $(element[1]) , $(element[2]) )  $(element!= chemin[end] ? " -> " : "")" for element in chemin])
+            end
+        end    
     end
 
 

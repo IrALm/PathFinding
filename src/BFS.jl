@@ -1,4 +1,6 @@
-
+#= 
+  Fait par AGANZE LWABOSHI MOISE : mars 2025
+=#
 
 include("structure.jl") 
 
@@ -6,8 +8,8 @@ include("structure.jl")
    
    Fait par AGANZE LWABOSHI MOISE : mars 2025
    Rôle : implémentation de BFS
-   Complexité :
-   Entrées :
+   Complexité : o( nombre des sommets + nombres d'arretes entre sommets)
+   Entrées :le graphe , le point de départ D et le point A 
    Sorties : 
 
 =#
@@ -35,7 +37,7 @@ function BFS(graphe , D , A)
     while !estvide(file)
 
         #je défile la tête
-        noeud = defiler( file )
+        noeud = defiler( file ) # coût constant
 
         # marquer le noeud comme visité
         nombre_de_sommet += 1
@@ -49,8 +51,8 @@ function BFS(graphe , D , A)
             if !( successeur in verification)
 
                 # s'il n'est pas encore visité , je l'ajoute dans la file
-                enfiler( file , successeur )
-                push!( verification , successeur)
+                enfiler( file , successeur ) # coût constant
+                push!( verification , successeur) # coût constant
 
                 # ensuite j'enregistre son prédécesseur
                 predecesseurs[successeur] = noeud
