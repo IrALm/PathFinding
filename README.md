@@ -31,7 +31,7 @@ Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Wei
 
 - Avoir installer Julia (la version 1.11)
 
-### Étapes d'installation
+### Étapes d'installation - REALISATION DES TESTS - Grande Instance : "theglaive.map" - Interface Graphique
 
 1. Clonez le dépôt :
    ```bash
@@ -42,29 +42,35 @@ Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Wei
     
     julia
     include("src/pathfind.jl")
-    
-3. Pour l'exécution :
+
+3. Pour lancer l'interface graphique et 2 tests sur des petites instances : 
+
+
+    julia
+    include("src/InterfaceGraphique.jl")
+    main("dat/didactic.map" , (45 , 5) ,(2,12) , 0.9 , 1.2 , 4.5)
+    main("dat/test.map" , (28 , 23) ,(10,16) , 0.56 , 3.9 , 4.5)
+4. Pour l'exécution :
    
         
         algoBFS("dat/didactic.map" ,(12,5) ,(2,12))
         algoDijkstra("dat/didactic.map" ,(12,5) ,(2,12))
         algoAstar("dat/didactic.map" ,(12,5) ,(2,12))
         algoGlouton("dat/didactic.map" ,(12,5) ,(2,12))
+        algoBFS("dat/theglaive.map" , (189,193) ,(226,437))
+        algoGlouton("dat/theglaive.map" , (189,193) ,(226,437))
+        algoDijkstra("dat/theglaive.map" , (189,193) ,(226,437))
+        algoAstar("dat/theglaive.map" , (189,193) ,(226,437))
+        algoWAstarVersion1("dat/theglaive.map" , (189,193) ,(226,437) , 0.35)
+        algoWStatique("dat/theglaive.map" , (189,193) ,(226,437) , 1.85)
+        algoWAstar("dat/theglaive.map" , (189,193) ,(226,437) , 3.95)
    
    ## Explication :
    - algoBFS = nom de la fonction
    - dat/didactic.map = chemin de mon fichier .map
    - (12,5) = coordonnée de départ D
    - (2,12) = coordonnée d'arrivée A
-
-4. Pour l'exécution de l'interface graphique : 
-
-  ```bash
-  julia
-  include("src/InterfaceGraphique.jl")
-  main("dat/didactic.map" , (45 , 5) ,(2,12) , 0.9 , 1.2 , 4.5)
-
-## Explication :
+   ## Explication pour l'exécution de l'interface graphique:
   - main = nom de la fonction permettant de démarrer l'interface graphique
   - dat/didactic.map = chemin de mon fichier .map
   - (12,5) = coordonnée de départ D
@@ -73,16 +79,4 @@ Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Wei
   - 1.2 : poids w pour la deuxième version de WA* : WStatique
   - 4.5 : poids w pour la troisième version de WA* : WAetoile
 
-## REALISATION DES TESTS : 
-
-## Grande Instance : "theglaive.map" 
-
-```bash
-algoBFS("dat/theglaive.map" , (189,193) ,(226,437))
-algoGlouton("dat/theglaive.map" , (189,193) ,(226,437))
-algoDijkstra("dat/theglaive.map" , (189,193) ,(226,437))
-algoAstar("dat/theglaive.map" , (189,193) ,(226,437))
-algoWAstarVersion1("dat/theglaive.map" , (189,193) ,(226,437) , 0.35)
-algoWStatique("dat/theglaive.map" , (189,193) ,(226,437) , 1.85)
-algoWAstar("dat/theglaive.map" , (189,193) ,(226,437) , 3.95)
 
