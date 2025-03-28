@@ -37,20 +37,15 @@ Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Wei
    ```bash
    git clone https://github.com/IrALm/PathFinding.git
    cd PathFinding
-2 . Pour compiler :
+2 . Pour compiler le fichier d'exécution en terminal et l'interface graphique fonctionnelle sur des petites instances:
 
     
     julia
     include("src/pathfind.jl")
-
-3. Pour lancer l'interface graphique et 2 tests sur des petites instances : 
-
-
-    julia
     include("src/InterfaceGraphique.jl")
-    main("dat/didactic.map" , (45 , 5) ,(2,12) , 0.9 , 1.2 , 4.5)
-    main("dat/test.map" , (28 , 23) ,(10,16) , 0.56 , 3.9 , 4.5)
-4. Pour l'exécution :
+
+    
+3. Pour l'exécution sur le terminal et lancer l'interface graphique et 2 tests sur des petites instances:
    
         
         algoBFS("dat/didactic.map" ,(12,5) ,(2,12))
@@ -64,6 +59,8 @@ Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Wei
         algoWAstarVersion1("dat/theglaive.map" , (189,193) ,(226,437) , 0.35)
         algoWStatique("dat/theglaive.map" , (189,193) ,(226,437) , 1.85)
         algoWAstar("dat/theglaive.map" , (189,193) ,(226,437) , 3.95)
+        main("dat/didactic.map" , (45 , 5) ,(2,12) , 0.9 , 1.2 , 4.5)
+        main("dat/test.map" , (28 , 23) ,(10,16) , 0.56 , 3.9 , 4.5)
    
    ## Explication :
    - algoBFS = nom de la fonction
@@ -71,12 +68,12 @@ Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Wei
    - (12,5) = coordonnée de départ D
    - (2,12) = coordonnée d'arrivée A
    ## Explication pour l'exécution de l'interface graphique:
-  - main = nom de la fonction permettant de démarrer l'interface graphique
-  - dat/didactic.map = chemin de mon fichier .map
-  - (12,5) = coordonnée de départ D
-  - (2,12) = coordonnée d'arrivée A
-  - 0.9 : poids w pour la première version de WA* : WAstarversion1
-  - 1.2 : poids w pour la deuxième version de WA* : WStatique
-  - 4.5 : poids w pour la troisième version de WA* : WAetoile
+   - main = nom de la fonction permettant de démarrer l'interface graphique
+   - dat/didactic.map = chemin de mon fichier .map
+   - (12,5) = coordonnée de départ D
+   - (2,12) = coordonnée d'arrivée A
+   - 0.9 : poids w pour la première version de WA* : WAstarversion1
+   - 1.2 : poids w pour la deuxième version de WA* : WStatique
+   - 4.5 : poids w pour la troisième version de WA* : WAetoile
 
 
