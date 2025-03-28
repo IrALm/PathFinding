@@ -22,7 +22,7 @@ Ensuite j'ajoute 3 algorithmes supplémentaires implémentant **l'algorithme Wei
   de ces informations comme suit : je sauvegarde d'abord les informations sur les nombres des lignes et des colonnes de mon fichier, après parcourir les lignes ensuite pour chaque ligne les colones et si à la ligne i , colonne j j'ai un caractère @ ou T alors la zone est impratiquable , sinon , pratiquable et là, je vérifie les sommets voisins en fonction des quatres directions ( gauche , droite , haut et bas). Ensuite, si à la ligne i , colonne j j'ai un caractère S , alors j'ajoute les coordonnées dans les sommets voisins avec un poids de 5 , si c'est un caractère W , alois j'ajoute les coordonnées avec un poids de 8 , sinon si le caractère est différent de @ et T et autre que S et W, j'ajoute les coordonnées avec un poids de 1 ( consignes de l'énoncé). Après, aux coordonnées (i,j) j'associe ses sommets voisins, ainsi de suite et à la fin j'ai mon graphe complet.
 - Une fois le graphe crée, j'implement ensuite les quatres algorithmes cités ci-haut et suivra les 3 autres
 - En amont **une interface graphique intuitive a été réalisé pour visualiser le comportement des 7 algorithmes**
--Attention : **Fonctionelle pour les petites instances et non les très grandes**
+- Attention : **Fonctionelle pour les petites instances et non les très grandes**
 ---
 
 ## Installation
